@@ -15,7 +15,7 @@ spring:
     initialization-mode: "always"
   jpa:
     open-in-view: true
-    properties:
+    properties: #https://github.com/spring-projects/spring-data-jpa/issues/2717
       jakarta:
         persistence:
           sharedCache:

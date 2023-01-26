@@ -84,11 +84,12 @@ do sistema.
 
 # CONSTRUÇÃO
 
-![Spring Initializr](docs/spring-initializr-setup-mysql.PNG)
+![Spring Initializr](docs/spring-initializr-setup.PNG)
 
 # PARA TESTAR
 
 - Crie um *database schema* no MySQL chamado `my-ecommerce`
+
 ![MySQL-Create-Schema](docs/mysql-schema-create.PNG)
 
 ---
@@ -98,3 +99,6 @@ do sistema.
 - [FIAP (Profº Rafael Matsuyama)](https://github.com/rafaelmatsuyama/FIAP-2022-SCJ-JavaPersistence)
 - [Emojis](https://github.com/markdown-templates/markdown-emojis)
 - [Simbologia - Cardinalidade](https://cadernodeprova.com.br/notacao-pe-de-galinha-cardinalidade/)
+- [Substituição do pacote javax por jakarta](https://stackoverflow.com/questions/60021815/why-has-javax-persistence-api-been-replaced-by-jakarta-persistence-api-in-spring)
+- [Usar jakarta.persistence ou org.springframework.data ?](https://stackoverflow.com/questions/39643960/whats-the-difference-between-javax-persistence-id-and-org-springframework-data)
+- [Testando via Spring MockMvc](https://spring.io/guides/gs/testing-web/)
