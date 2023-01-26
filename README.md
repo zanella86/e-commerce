@@ -50,9 +50,8 @@ do sistema.
 -->
 
 - MER
-<!--
-![MER](docs/MER.PNG)
--->
+
+![MER](docs/MER.svg)
 
 ---
 
@@ -69,15 +68,17 @@ do sistema.
 # REPOSITÓRIO RELACIONADOS
 -->
 
-<!--
-
 ---
 
-# FERRAMENTAS DE INTEGRAÇÃO
-
-- Github
-- RabbitMQ
-- -->
+# FERRAMENTAS / TECNOLOGIAS
+- [Draw.io](https://app.diagrams.net/)
+- Git / Github
+- Gradle 7.6
+- IntelliJ IDEA Community Edition (2022.2.1)
+- Microsoft Teams
+- MySQL Workbench 8.0 CE
+- Redis 2.4.5
+- Spring Framework 3.0.2 (Java 17+)
 
 ---
 
@@ -95,6 +96,5 @@ do sistema.
 # REFERÊNCIAS
 
 - [FIAP (Profº Rafael Matsuyama)](https://github.com/rafaelmatsuyama/FIAP-2022-SCJ-JavaPersistence)
-<!-- 
 - [Emojis](https://github.com/markdown-templates/markdown-emojis)
--->
+- [Simbologia - Cardinalidade](https://cadernodeprova.com.br/notacao-pe-de-galinha-cardinalidade/)
