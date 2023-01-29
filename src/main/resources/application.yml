@@ -34,4 +34,5 @@ hibernate:
   format_sql: true
   hbm2ddl:
     auto: update
-  id.new_generator_mappings: true
+  id:
+    new_generator_mappings: true

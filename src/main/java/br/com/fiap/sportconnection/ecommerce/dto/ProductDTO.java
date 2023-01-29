@@ -1,12 +1,14 @@
 package br.com.fiap.sportconnection.ecommerce.dto;
 
+import lombok.NonNull;
+
 import java.math.BigDecimal;
 
 public record ProductDTO(
         Long id,
-        String code,
-        String name,
+        @NonNull String code,
+        @NonNull String name,
         String description,
-        Integer quantity,
-        BigDecimal price) {
+        Integer stockQuantity,
+        BigDecimal unityPrice) {
 }

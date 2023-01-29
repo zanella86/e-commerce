@@ -2,40 +2,45 @@ package br.com.fiap.sportconnection.ecommerce.service;
 
 import br.com.fiap.sportconnection.ecommerce.entity.Product;
 import br.com.fiap.sportconnection.ecommerce.repository.ProductRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductService {
+public class ProductService implements CrudService<Product>{
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @Override
     public Optional<Product> get(Long id) {
         return productRepository.findById(id);
     }
 
-    public List<Product> getAll() {
+    @Override
+    public List<Product> list() {
         return productRepository.findAll();
     }
 
-    @Transactional
-    public void remove(Product product) {
-        productRepository.delete(product);
+    @Override
+    public void remove(Product entity) {
+        productRepository.delete(entity);
     }
 
-    @Transactional
-    public void update(Product product) {
-        productRepository.save(product);
+    @Override
+    public void update(Product entity) {
+        if(get(entity.getId()).isPresent()) {
+            productRepository.save(entity);
+        }
     }
 
-    @Transactional
-    public void add(Product product) {
-        productRepository.save(product);
+    @Override
+    public void add(Product entity) {
+        productRepository.save(entity);
     }
 
 }

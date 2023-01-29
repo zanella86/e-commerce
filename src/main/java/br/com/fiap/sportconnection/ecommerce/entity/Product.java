@@ -1,17 +1,14 @@
 package br.com.fiap.sportconnection.ecommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Builder
 @Entity
 @Table(name = "PRODUCT", catalog = "my-ecommerce")
 public class Product {
@@ -30,10 +27,10 @@ public class Product {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "QUANTITY")
-    private Integer quantity;
+    @Column(name = "STOCK_QUANTITY")
+    private Integer stockQuantity;
 
-    @Column(name = "PRICE", precision = 2)
-    private BigDecimal price;
+    @Column(name = "UNITY_PRICE", precision = 2)
+    private BigDecimal unityPrice;
 
 }

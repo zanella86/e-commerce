@@ -102,3 +102,4 @@ do sistema.
 - [Substituição do pacote javax por jakarta](https://stackoverflow.com/questions/60021815/why-has-javax-persistence-api-been-replaced-by-jakarta-persistence-api-in-spring)
 - [Usar jakarta.persistence ou org.springframework.data ?](https://stackoverflow.com/questions/39643960/whats-the-difference-between-javax-persistence-id-and-org-springframework-data)
 - [Testando via Spring MockMvc](https://spring.io/guides/gs/testing-web/)
+- [Jackson - ObjectMapper Tutorial](https://www.baeldung.com/jackson-object-mapper-tutorial)
