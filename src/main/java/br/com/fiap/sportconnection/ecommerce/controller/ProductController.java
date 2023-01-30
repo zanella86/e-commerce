@@ -22,9 +22,10 @@ public class ProductController {
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
         var product = productService.get(id);
         if(product.isPresent()){
-            return new ResponseEntity<>(product, HttpStatus.FOUND);
+            //return new ResponseEntity<>(new ObjectMapper().convertValue(product, ProductDTO.class), HttpStatus.FOUND);
+            return new ResponseEntity<>(product, HttpStatus.FOUND);     //FIXME: O retorno deve ser o DTO
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @GetMapping
@@ -40,16 +41,27 @@ public class ProductController {
         return new ResponseEntity<>(list, HttpStatus.FOUND);
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> delete(@RequestBody ProductDTO product) {
-        productService.remove(new ObjectMapper().convertValue(product, Product.class));
-        return new ResponseEntity<>(product, HttpStatus.OK);    // TODO: Implementar retorno quando der erro "HttpStatus.NOTFOUND"
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+        var product = productService.get(id);
+        if(product.isPresent()){
+            productService.remove(product.get());
+            //return new ResponseEntity<>(new ObjectMapper().convertValue(product, ProductDTO.class), HttpStatus.OK);
+            return new ResponseEntity<>(product, HttpStatus.OK);    //FIXME: O retorno deve ser o DTO
+        }
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody ProductDTO product) {
         productService.update(new ObjectMapper().convertValue(product, Product.class));
-        return new ResponseEntity<>(product, HttpStatus.OK);    // TODO: Implementar retorno quando der erro "HttpStatus.NOTFOUND"
+        return new ResponseEntity<>(product, HttpStatus.OK);    // TODO: Implementar retorno quando der erro "HttpStatus.NOT_MODIFIED"
+    }
+
+    @PatchMapping
+    public ResponseEntity<?> alter(@RequestBody ProductDTO product) {
+        productService.update(new ObjectMapper().convertValue(product, Product.class));
+        return new ResponseEntity<>(product, HttpStatus.OK);    // TODO: Implementar retorno quando der erro "HttpStatus.NOT_MODIFIED"
     }
 
     @PostMapping
@@ -57,6 +69,5 @@ public class ProductController {
         productService.add(new ObjectMapper().convertValue(product, Product.class));
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
-
 
 }

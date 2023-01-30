@@ -3,6 +3,8 @@ package br.com.fiap.sportconnection.ecommerce.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
@@ -10,27 +12,29 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "PRODUCT", catalog = "my-ecommerce")
-public class Product {
+@Table(name = "product", catalog = "my-ecommerce")
+public class Product implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    @Column(name = "ID", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(name = "CODE", unique = true, nullable = false, length = 10)
+    @Column(unique = true, nullable = false, length = 10)
     private String code;
 
-    @Column(name = "NAME", unique = true, nullable = false, length = 50)
+    @Column(unique = true, nullable = false, length = 50)
     private String name;
 
-    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "STOCK_QUANTITY")
+    @Column(name = "stock_quantity")
     private Integer stockQuantity;
 
-    @Column(name = "UNITY_PRICE", precision = 2)
+    @Column(name = "unity_price", precision = 6, scale = 2)
     private BigDecimal unityPrice;
 
 }

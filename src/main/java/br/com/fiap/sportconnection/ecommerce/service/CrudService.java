@@ -5,9 +5,9 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface CrudService<T> {
+public interface CrudService<T> { //TODO: Essa interface faz sentido? Muito similar à "CrudRepository"...
 
-    Optional<T> get(Long id);
+    Optional<T> get(Long id);   //FIXME: Tipo de chave fixo.
 
     List<T> list();
 
