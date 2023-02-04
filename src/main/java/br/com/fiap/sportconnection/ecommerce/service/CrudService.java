@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Deprecated
 public interface CrudService<T> { //TODO: Essa interface faz sentido? Muito similar à "CrudRepository"...
 
     Optional<T> get(Long id);   //FIXME: Tipo de chave fixo.

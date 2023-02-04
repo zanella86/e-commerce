@@ -1,7 +1,9 @@
 package br.com.fiap.sportconnection.ecommerce;
 
 import br.com.fiap.sportconnection.ecommerce.dto.ProductDTO;
+import br.com.fiap.sportconnection.ecommerce.dto.ProductPatchDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,29 +77,48 @@ class ProductTests {
 
     @Test
     @Order(2)
-    void patchProduct() throws Exception {
-        var product_smartphone_patch = new ProductDTO(
-                1L,
-                "A123",
-                "Smartphone",
-                "64GB",
-                10,
+    @DisplayName("Cenário de sucesso: Produto encontrado/modificado")
+    void patchProduct_OK() throws Exception {
+        var product_smartphone_patch = new ProductPatchDTO(
+                "128GB",
+                15,
                 BigDecimal.valueOf(1399.99)
         );
 
         this.mockMvc.perform(
-                        patch(PRODUCT_URI)
+                        patch(PRODUCT_URI + "/1")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(product_smartphone_patch))
                 )
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCheckpoint());
     }
 
     @Test
     @Order(3)
-    void getProduct() throws Exception {
+    @DisplayName("Cenário de falha: Produto não encontrado/modificado")
+    void patchProduct_NOK() throws Exception {
+        var product_smartphone_patch = new ProductPatchDTO(
+                "256GB",
+                3,
+                BigDecimal.valueOf(3499.99)
+        );
+
+        this.mockMvc.perform(
+                        patch(PRODUCT_URI + "/1000")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(product_smartphone_patch))
+                )
+                .andDo(print())
+                .andExpect(status().isNotModified());
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Cenário de sucesso: Produto encontrado")
+    void getProduct_OK() throws Exception {
         this.mockMvc.perform(
                         get(PRODUCT_URI + "/1")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -108,7 +129,20 @@ class ProductTests {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
+    @DisplayName("Cenário de falha: Produto não encontrado")
+    void getProduct_NOK() throws Exception {
+        this.mockMvc.perform(
+                        get(PRODUCT_URI + "/2000")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @Order(6)
     void putProduct() throws Exception {
         var product_monitor_put = new ProductDTO(
                 3L,
@@ -125,11 +159,11 @@ class ProductTests {
                                 .content(new ObjectMapper().writeValueAsString(product_monitor_put))
                 )
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCheckpoint());
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     void removeProduct() throws Exception {
         this.mockMvc.perform(
                         delete(PRODUCT_URI + "/2")
@@ -139,7 +173,7 @@ class ProductTests {
     }
 
     @Test
-    @Order(6)
+    @Order(8)
     void listProducts() throws Exception {
         this.mockMvc.perform(
                         get(PRODUCT_URI)

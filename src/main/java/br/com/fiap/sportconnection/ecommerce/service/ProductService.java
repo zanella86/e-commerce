@@ -1,46 +1,28 @@
 package br.com.fiap.sportconnection.ecommerce.service;
 
-import br.com.fiap.sportconnection.ecommerce.entity.Product;
-import br.com.fiap.sportconnection.ecommerce.repository.ProductRepository;
-import org.springframework.stereotype.Service;
+import br.com.fiap.sportconnection.ecommerce.dto.ProductDTO;
+import br.com.fiap.sportconnection.ecommerce.dto.ProductPatchDTO;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class ProductService implements CrudService<Product>{
+public interface ProductService {
 
-    private final ProductRepository productRepository;
+    Optional<ProductDTO> get(Long id);
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    List<ProductDTO> list();
 
-    @Override
-    public Optional<Product> get(Long id) {
-        return productRepository.findById(id);
-    }
+    @Transactional
+    void remove(Long id);
 
-    @Override
-    public List<Product> list() {
-        return productRepository.findAll();
-    }
+    @Transactional
+    ProductDTO update(ProductDTO productDTO);
 
-    @Override
-    public void remove(Product entity) {
-        productRepository.delete(entity);
-    }
+    @Transactional
+    Optional<ProductDTO> update(Long id, ProductPatchDTO productPatchDTO);
 
-    @Override
-    public void update(Product entity) {
-        if(get(entity.getId()).isPresent()) {
-            productRepository.save(entity);
-        }
-    }
-
-    @Override
-    public void add(Product entity) {
-        productRepository.save(entity);
-    }
+    @Transactional
+    ProductDTO add(ProductDTO productDTO);
 
 }

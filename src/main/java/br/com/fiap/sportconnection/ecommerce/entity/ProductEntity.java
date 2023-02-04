@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 @Entity
 @Table(name = "product", catalog = "my-ecommerce")
-public class Product implements Serializable {
+public class ProductEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
