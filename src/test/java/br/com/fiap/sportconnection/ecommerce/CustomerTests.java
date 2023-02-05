@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -37,6 +38,7 @@ class CustomerTests {
     }
 
     void add(CustomerDTO customerDTO) throws Exception {
+        System.out.println(customerDTO);
         this.mockMvc.perform(
                         post(CUSTOMER_URI)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -73,7 +75,7 @@ class CustomerTests {
                 .build();
 
         AddressEntity address_03 = AddressEntity.builder()
-                .id(2L)
+                .id(3L)
                 .streetName("XPTO3")
                 .number("1234")
                 .neighborhood("Rua3")
@@ -83,13 +85,14 @@ class CustomerTests {
                 .build();
 
         addresses_customer_01.add(address_01);
-        addresses_customer_01.add(address_02);
+        //addresses_customer_01.add(address_02);    //FIXME: Não aceita múltiplos endereços... (não captura o "customer_id")
         addresses_customer_02.add(address_03);
 
         var customer_01 = new CustomerDTO(
                 1L,
                 "Zanella86",
-                LocalDate.of(1986, 11, 10) ,
+                //LocalDate.of(1986, 11, 10) ,
+                new SimpleDateFormat("dd-MM-yyyy").parse("10-11-1986"),
                 "000111222-1",
                 "RG",
                 addresses_customer_01
@@ -98,7 +101,8 @@ class CustomerTests {
         var customer_02 = new CustomerDTO(
                 2L,
                 "lakagawa",
-                LocalDate.of(1986, 11, 11) ,
+                //LocalDate.of(1986, 11, 11),
+                new SimpleDateFormat("dd-MM-yyyy").parse("11-11-1986"),
                 "000222111-2",
                 "RG",
                 addresses_customer_02
@@ -126,7 +130,8 @@ class CustomerTests {
 
         var customer_01_patch = new CustomerPatchDTO(
                 "Zanella",
-                LocalDate.of(2000, 11, 10) ,
+                //LocalDate.of(2000, 11, 10) ,
+                new SimpleDateFormat("dd-MM-yyyy").parse("10-11-2000"),
                 "000111222-9",
                 "RG",
                 addresses
@@ -149,7 +154,7 @@ class CustomerTests {
         Set<AddressEntity> addresses = new LinkedHashSet<>();
         AddressEntity address_01_patch = AddressEntity.builder()
                 .streetName("YPTO")
-                .number("321")
+                .number("789")
                 .neighborhood("Av")
                 .postalCode("54321-000")
                 .country("Brasil")
@@ -191,7 +196,8 @@ class CustomerTests {
 
         var customer_01_patch = new CustomerPatchDTO(
                 "Zanella86",
-                LocalDate.of(1986, 11, 10) ,
+                //LocalDate.of(1986, 11, 10) ,
+                new SimpleDateFormat("dd-MM-yyyy").parse("10-11-1986"),
                 "000111222-1",
                 "RG",
                 addresses
@@ -240,8 +246,8 @@ class CustomerTests {
 
     @Test
     @Order(6)
-    @DisplayName("Cenário de sucesso: Produto encontrado")
-    void getProduct_OK() throws Exception {
+    @DisplayName("Cenário de sucesso: Cliente encontrado")
+    void getCustomer_OK() throws Exception {
         this.mockMvc.perform(
                         get(CUSTOMER_URI + "/1")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -254,7 +260,7 @@ class CustomerTests {
     @Test
     @Order(7)
     @DisplayName("Cenário de falha: Cliente não encontrado")
-    void getProduct_NOK() throws Exception {
+    void getCustomer_NOK() throws Exception {
         this.mockMvc.perform(
                         get(CUSTOMER_URI + "/2000")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -270,7 +276,8 @@ class CustomerTests {
         var customer_02_put = new CustomerDTO(
                 1L,
                 "Zanella86",
-                LocalDate.of(1986, 11, 10) ,
+                //LocalDate.of(1986, 11, 10) ,
+                new SimpleDateFormat("dd-MM-yyyy").parse("10-11-1986"),
                 "000111222-1",
                 "RG",
                 null

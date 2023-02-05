@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class CustomerEntity implements Serializable {
     private String name;
 
     @Column(name = "birth_date")
-    private LocalDate birthDate;
+    private Date birthDate;
 
     private String document;
 
