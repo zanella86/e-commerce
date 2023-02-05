@@ -10,7 +10,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
@@ -39,6 +38,6 @@ public class CustomerEntity implements Serializable {
     private String documentType;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="customerEntity")
-    private Set<AddressEntity> addresses = new LinkedHashSet<>();
+    private Set<AddressEntity> addresses;
 
 }

@@ -44,8 +44,8 @@ do sistema.
 
 # OVERVIEW
 
-- Fluxo
 <!--
+- Fluxo
 ![FLUXO](docs/fluxo.PNG)
 -->
 
@@ -65,7 +65,7 @@ do sistema.
 
 ---
 
-# REPOSITÓRIO RELACIONADOS
+# REPOSITÓRIOS RELACIONADOS
 -->
 
 ---
@@ -122,3 +122,4 @@ do sistema.
 - [Hibernate Date Tyes](https://www.baeldung.com/hibernate-date-time)
 - [Jackson ObjectMapper - Customize](https://www.baeldung.com/spring-boot-customize-jackson-objectmapper)
 - [Jackson-modules-java8 repository](https://github.com/FasterXML/jackson-modules-java8)
+- [Redis Commands](https://redis.io/commands/)

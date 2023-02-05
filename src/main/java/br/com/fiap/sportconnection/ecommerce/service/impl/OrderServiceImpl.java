@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public class OrderServiceImpl implements OrderService {
 
-    private OrderRepository orderRepository;
-    private OrderProductRepository orderProductRepository;
+    private final OrderRepository orderRepository;
+    private final OrderProductRepository orderProductRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository, OrderProductRepository orderProductRepository) {
         this.orderRepository = orderRepository;
@@ -23,7 +23,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO get(Long id) {
 
-        orderRepository.findById(id)
+        orderRepository.findById(id);
 
         return null;
     }

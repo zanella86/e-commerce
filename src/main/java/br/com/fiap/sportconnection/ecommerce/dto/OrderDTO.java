@@ -1,6 +1,6 @@
 package br.com.fiap.sportconnection.ecommerce.dto;
 
-
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,5 +11,5 @@ public record OrderDTO (
         BigDecimal discount,
         Long costumerId,
         List<ProductQuantityItemDTO> products
-) {
+) implements Serializable {
 }
