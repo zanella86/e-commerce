@@ -1,9 +1,10 @@
-package br.com.fiap.sportconnection.ecommerce.service;
+package br.com.fiap.sportconnection.ecommerce.service.impl;
 
 import br.com.fiap.sportconnection.ecommerce.dto.ProductDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.ProductPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.ProductEntity;
 import br.com.fiap.sportconnection.ecommerce.repository.ProductRepository;
+import br.com.fiap.sportconnection.ecommerce.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
