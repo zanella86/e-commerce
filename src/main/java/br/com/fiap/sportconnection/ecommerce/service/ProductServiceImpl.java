@@ -5,6 +5,7 @@ import br.com.fiap.sportconnection.ecommerce.dto.ProductPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.ProductEntity;
 import br.com.fiap.sportconnection.ecommerce.repository.ProductRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(value = "productCache", key = "#id")
     public Optional<ProductDTO> get(Long id) {
         var product = productRepository.findById(id);
         if(product.isEmpty()) {

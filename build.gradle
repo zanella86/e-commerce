@@ -18,7 +18,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.projectlombok:lombok:1.18.22'
-	//implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1'	// Add support to java.time.LocalDate
+	//implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1'	// Adiciona suporte ao java.time.LocalDate
+	//implementation 'org.apache.commons:commons-dbcp2:2.9.0'	// Suporte ao Redis?
     compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'

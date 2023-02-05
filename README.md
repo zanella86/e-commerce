@@ -88,9 +88,19 @@ do sistema.
 
 # PARA TESTAR
 
+## Bancos de dados
+
+### MySQL
+
 - Crie um *database schema* no MySQL chamado `my-ecommerce`
 
 ![MySQL-Create-Schema](docs/mysql-schema-create.PNG)
+
+### Redis
+
+- Execute o servidor `Redis`
+
+![Redis-Starter-Server](docs/redis-starter-server.PNG)
 
 ---
 

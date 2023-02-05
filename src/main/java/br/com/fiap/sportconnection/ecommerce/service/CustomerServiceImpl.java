@@ -6,6 +6,7 @@ import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
 import br.com.fiap.sportconnection.ecommerce.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Cacheable(value = "customerCache", key = "#id")
     public Optional<CustomerDTO> get(Long id) {
         var customer = customerRepository.findById(id);
         if(customer.isEmpty()) {

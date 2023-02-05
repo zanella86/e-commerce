@@ -30,6 +30,8 @@ spring:
     #serialization:
       #write-datas-as-timestamps: false
     #default-property-inclusion: non_null
+  #main:
+    #allow-bean-definition-overriding: true
 
 # Cached Database
   redis:
