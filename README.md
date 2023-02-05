@@ -51,7 +51,7 @@ do sistema.
 
 - MER
 
-![MER](docs/MER.svg)
+![MER](docs/MER.png)
 
 ---
 

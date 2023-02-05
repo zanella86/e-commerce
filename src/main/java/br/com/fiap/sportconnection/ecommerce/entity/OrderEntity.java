@@ -37,6 +37,6 @@ public class OrderEntity implements Serializable {
     private Costumer costumer;*/
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="order", orphanRemoval = true)
-    private List<OrderProductEntity> products = new ArrayList<>();
+    private List<OrderProductEntity> orderProducts = new ArrayList<>();
 
 }
