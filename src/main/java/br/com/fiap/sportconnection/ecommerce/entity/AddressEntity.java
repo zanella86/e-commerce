@@ -6,14 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Address {
+@Table(name="address", catalog = "my-ecommerce")
+public class AddressEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "street_name")
@@ -24,8 +32,8 @@ public class Address {
     private String postalCode;
     private String country;
     private String city;
-    @ManyToOne
-    @JoinColumn(name = "costumer_id")
-    private Costumer costumer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customerEntity;
 
 }

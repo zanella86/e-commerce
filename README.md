@@ -106,3 +106,7 @@ do sistema.
 - [DTO - Usar ou não Serializable?](https://stackoverflow.com/questions/71826801/should-i-use-serializable-for-my-dto-and-why-should-i-use)
 - [JPA - Entities Serializable](https://www.baeldung.com/jpa-entities-serializable)
 - [HTTP Methods: Put vs Patch](https://medium.com/@gabrielrufino.js/put-vs-patch-pare-de-agora-escolher-errado-533b8c6058d9)
+- [Como usar Optional em java](https://www.developer.com/java/java-optional-object/)
+- - [Java LocalDate](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/LocalDate.html)
+- [Java 8 - LocalDate: Jackson Module jsr310](https://stackoverflow.com/questions/21384820/is-there-a-jackson-datatype-module-for-jdk8-java-time) / [Customizing Jackson mapper](https://www.baeldung.com/spring-boot-customize-jackson-objectmapper)
+- [Hibernate Date Tyes](https://www.baeldung.com/hibernate-date-time)

@@ -1,13 +1,14 @@
 package br.com.fiap.sportconnection.ecommerce.entity;
 
-import com.fasterxml.jackson.databind.deser.SettableAnyProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -16,19 +17,27 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="costumer", catalog = "my-ecommerce")
-public class Costumer {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name="customer", catalog = "my-ecommerce")
+public class CustomerEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", unique = true, nullable = false)
     private Long id;
+
     private String name;
+
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
+
     private String document;
+
     @Column(name = "document_type")
     private String documentType;
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="costumer")
-    private Set<Address> addresses = new LinkedHashSet<Address>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="customerEntity")
+    private Set<AddressEntity> addresses = new LinkedHashSet<>();
 
 }

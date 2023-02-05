@@ -28,6 +28,7 @@ class ProductTests {
     private static final String PRODUCT_URI = "/product";
 
     @Test
+    //@Order(1)
     void contextLoads() {
     }
 

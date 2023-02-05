@@ -3,19 +3,17 @@ package br.com.fiap.sportconnection.ecommerce.controller;
 import br.com.fiap.sportconnection.ecommerce.dto.ProductDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.ProductPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.service.ProductService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("product")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
