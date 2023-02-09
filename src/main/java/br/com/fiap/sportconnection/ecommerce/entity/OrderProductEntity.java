@@ -1,14 +1,12 @@
 package br.com.fiap.sportconnection.ecommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Objects;
 
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,9 +15,10 @@ import java.util.Objects;
 public class OrderProductEntity {
 
 
-    public OrderProductEntity(OrderEntity order, ProductEntity product) {
+    public OrderProductEntity(OrderEntity order, ProductEntity product, Long quantity) {
         this.order = order;
         this.product = product;
+        this.quantity = quantity;
     }
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

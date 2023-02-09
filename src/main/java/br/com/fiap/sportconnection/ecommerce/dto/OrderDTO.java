@@ -9,7 +9,6 @@ public record OrderDTO (
         String description,
         BigDecimal total,
         BigDecimal discount,
-        Long costumerId,
-        List<ProductQuantityItemDTO> products
+        List<OrderProductDTO> products
 ) {
 }
