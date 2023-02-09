@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-
     private OrderRepository orderRepository;
     private OrderProductRepository orderProductRepository;
     private ProductRepository productRepository;
@@ -44,9 +43,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO get(Long id) throws NotFoundException {
 
+
         OrderEntity order = getOrder(id);
         //verificar se este dado não voltar :D
         //List<OrderProductEntity> allProductsByOrderId = orderProductRepository.getAllByOrderId(order.getId());
+        orderRepository.findById(id);
 
         return OrderEntityMapper.orderEntityToOrderDTO(order);
     }

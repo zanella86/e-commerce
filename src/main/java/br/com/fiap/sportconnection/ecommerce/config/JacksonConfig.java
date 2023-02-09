@@ -13,8 +13,9 @@ import java.time.format.DateTimeFormatter;
 public class JacksonConfig {    // TODO: Avaliar/configurar a serialização da data para suporte ao java.time.LocalDate
 
     public static final String DATETIME_FORMAT = "dd-MM-yyyy HH:mm";
-    public static LocalDateTimeSerializer LOCAL_DATETIME_SERIALIZER = new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT));
+    public static final LocalDateTimeSerializer LOCAL_DATETIME_SERIALIZER = new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT));
 
+    /*
     @Bean
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
@@ -22,6 +23,7 @@ public class JacksonConfig {    // TODO: Avaliar/configurar a serialização da 
                 .serializationInclusion(JsonInclude.Include.NON_NULL);
         return new MappingJackson2HttpMessageConverter(builder.build());
     }
+    */
 
     /*
     @Bean

@@ -1,5 +1,6 @@
 package br.com.fiap.sportconnection.ecommerce.service.impl;
 
+import br.com.fiap.sportconnection.ecommerce.cache.CustomerCache;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchAddressDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
@@ -7,7 +8,10 @@ import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
 import br.com.fiap.sportconnection.ecommerce.repository.CustomerRepository;
 import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    @Cacheable(value = "customerCache", key = "#id")
+    @Cacheable(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE)
     public Optional<CustomerDTO> get(Long id) {
         var customer = customerRepository.findById(id);
         if(customer.isEmpty()) {
@@ -34,6 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Cacheable(value = CustomerCache.NAME_ALL, unless = CustomerCache.UNLESS_ALL)
     public List<CustomerDTO> list() {
         return customerRepository.findAll()
                 .stream()
@@ -42,6 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE),
+                    @CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)
+            }
+    )
     public void remove(Long id) {
         try {
             customerRepository.deleteById(id);   //FIXME: De acordo com a documentação, se o elementro não for encontrado o mesmo deveria ser ignorado. (Bug do Spring?)
@@ -51,6 +62,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Caching(
+            put = { @CachePut(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE_OBJ)},
+            evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
+    )
     public CustomerDTO update(CustomerDTO customerDTO) {
         CustomerEntity customerEntity = customerRepository.save(
                 CustomerEntity.builder()
@@ -66,6 +81,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Caching(
+            put = { @CachePut(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE)},
+            evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
+    )
     public Optional<CustomerDTO> update(Long id, CustomerPatchDTO customerPatchDTO) {
         var customer = customerRepository.findById(id);
         if(customer.isPresent()) {
@@ -82,6 +101,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Caching(
+            put = { @CachePut(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE)},
+            evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
+    )
     public Optional<CustomerDTO> update(Long id, CustomerPatchAddressDTO customerPatchAddressDTO) {
         var customer = customerRepository.findById(id);
         if(customer.isPresent()) {
@@ -94,6 +117,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Caching(
+            put = { @CachePut(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE_OBJ)},
+            evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
+    )
     public CustomerDTO add(CustomerDTO customerDTO) {
         var customerEntity = new ObjectMapper().convertValue(customerDTO, CustomerEntity.class);
         return new ObjectMapper().convertValue(customerRepository.save(customerEntity), CustomerDTO.class);
