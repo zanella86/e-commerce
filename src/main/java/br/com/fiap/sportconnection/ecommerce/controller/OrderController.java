@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public OrderDTO add(@RequestBody OrderDTO orderDTO) {
+    public OrderDTO add(@RequestBody OrderDTO orderDTO) throws NotFoundException {
         return orderService.add(orderDTO);
     }
 

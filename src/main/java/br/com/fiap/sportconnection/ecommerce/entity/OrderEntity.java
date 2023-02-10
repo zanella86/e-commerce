@@ -32,9 +32,9 @@ public class OrderEntity implements Serializable {
     @Column(precision = 6, scale = 2)
     private BigDecimal discount;
 
-   /* @ManyToOne
-    @JoinColumn(name = "costumer_id")
-    private Costumer costumer;*/
+    @ManyToOne
+    @JoinColumn(name = "custumer_id")
+    private CustomerEntity custumer;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="order", orphanRemoval = true)
     private List<OrderProductEntity> orderProducts = new ArrayList<>();

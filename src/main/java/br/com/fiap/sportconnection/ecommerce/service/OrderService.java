@@ -21,7 +21,7 @@ public interface OrderService {
     OrderDTO update(OrderDTO order) throws NotFoundException;
 
     @Transactional
-    OrderDTO add(OrderDTO order);
+    OrderDTO add(OrderDTO order) throws NotFoundException;
 
     OrderDTO addOrderProduct(OrderProductDTO orderProduct) throws NotFoundException;
 

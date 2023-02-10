@@ -2,24 +2,30 @@ package br.com.fiap.sportconnection.ecommerce.mapper;
 
 import br.com.fiap.sportconnection.ecommerce.dto.OrderDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.OrderProductDTO;
+import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
 import br.com.fiap.sportconnection.ecommerce.entity.OrderEntity;
-import br.com.fiap.sportconnection.ecommerce.entity.OrderProductEntity;
-import br.com.fiap.sportconnection.ecommerce.entity.ProductEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class OrderEntityMapper {
-    OrderEntity orderDTOToOrderEntity (OrderDTO orderDTO) {
-
+    public static OrderEntity orderDTOToOrderEntity (OrderDTO orderDTO) {
         OrderEntity order = OrderEntity.builder()
                 .total(orderDTO.total())
                 .discount(orderDTO.discount())
                 .description(orderDTO.description()).build();
 
+        return order;
+    }
+    public static OrderEntity orderDTOToOrderEntity (OrderDTO orderDTO, CustomerEntity customer) {
+        OrderEntity order = OrderEntity.builder()
+                .total(orderDTO.total())
+                .discount(orderDTO.discount())
+                .description(orderDTO.description())
+                .custumer(customer)
+                .build();
 
-        return null;
+        return order;
     }
 
     public static OrderDTO orderEntityToOrderDTO(OrderEntity orderEntity) {
@@ -30,7 +36,7 @@ public final class OrderEntityMapper {
                         orderProduct.getQuantity(),
                         orderProduct.getOrder().getId())).collect(Collectors.toList());
 
-        return new OrderDTO(orderEntity.getId(), orderEntity.getDescription(), orderEntity.getTotal(), orderEntity.getDiscount(), orderProducts);
+        return new OrderDTO(orderEntity.getId(), orderEntity.getDescription(), orderEntity.getTotal(), orderEntity.getDiscount(), orderProducts, orderEntity.getCustumer().getId());
     }
     public static List<OrderDTO> orderEntityToOrderDTO(List<OrderEntity> orderEntities){
         return orderEntities.stream().map(orderEntity -> orderEntityToOrderDTO(orderEntity))

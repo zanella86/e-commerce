@@ -10,8 +10,9 @@ public record OrderDTO (
         BigDecimal total,
         BigDecimal discount,
 
-        Long costumerId,
-        List<ProductQuantityItemDTO> products
-) implements Serializable {
+        List<OrderProductDTO> products,
+
+        Long costumerId
+) {
 
 }
