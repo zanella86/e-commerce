@@ -12,7 +12,7 @@ public interface OrderService {
 
     OrderDTO get(Long id) throws NotFoundException;
 
-    List<OrderDTO> getList();
+    List<OrderDTO> list();
 
     @Transactional
     void remove(Long id) throws NotFoundException;

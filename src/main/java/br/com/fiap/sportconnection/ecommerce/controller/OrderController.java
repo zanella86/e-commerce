@@ -19,7 +19,7 @@ public class OrderController {
 
     @GetMapping
     public List<OrderDTO> getList() {
-        return orderService.getList();
+        return orderService.list();
     }
 
     @GetMapping("{id}")

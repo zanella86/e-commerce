@@ -1,5 +1,7 @@
 package br.com.fiap.sportconnection.ecommerce.service.impl;
 
+import br.com.fiap.sportconnection.ecommerce.cache.CustomerCache;
+import br.com.fiap.sportconnection.ecommerce.cache.OrderCache;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.OrderDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.OrderProductDTO;
@@ -17,6 +19,10 @@ import br.com.fiap.sportconnection.ecommerce.repository.ProductRepository;
 import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
 import br.com.fiap.sportconnection.ecommerce.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -47,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @Cacheable(value = OrderCache.NAME_ONE, key = OrderCache.KEY_ONE)
     public OrderDTO get(Long id) throws NotFoundException {
 
         OrderEntity order = getOrder(id);
@@ -54,13 +61,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> getList() {
+    @Cacheable(value = OrderCache.NAME_ALL, unless = OrderCache.UNLESS_ALL)
+    public List<OrderDTO> list() {
 
         List<OrderEntity> orders = orderRepository.findAll();
         return OrderEntityMapper.orderEntityToOrderDTO(orders);
     }
 
     @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(value = OrderCache.NAME_ONE, key = OrderCache.KEY_ONE),
+                    @CacheEvict(value = OrderCache.NAME_ALL, allEntries = true)
+            }
+    )
     public void remove(Long id) throws NotFoundException {
         OrderEntity order = getOrder(id);
 
@@ -69,6 +83,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Caching(
+            put = { @CachePut(value = OrderCache.NAME_ONE, key = OrderCache.KEY_ONE_OBJ)},
+            evict = {@CacheEvict(value = OrderCache.NAME_ALL, allEntries = true)}
+    )
     public OrderDTO update(OrderDTO order) throws NotFoundException{
 
         OrderEntity orderEntity = getOrder(order.id());
@@ -80,6 +98,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Caching(
+            put = { @CachePut(value = OrderCache.NAME_ONE, key = OrderCache.KEY_ONE_OBJ)},
+            evict = {@CacheEvict(value = OrderCache.NAME_ALL, allEntries = true)}
+    )
     public OrderDTO add(OrderDTO order) throws NotFoundException {
 
         CustomerEntity customer = customerRepository.findById(order.costumerId()).orElseThrow(() -> new NotFoundException("Customer not found"));
