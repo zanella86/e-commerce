@@ -13,6 +13,6 @@ public record OrderDTO (
         List<OrderProductDTO> products,
 
         Long costumerId
-) {
+) implements Serializable {
 
 }

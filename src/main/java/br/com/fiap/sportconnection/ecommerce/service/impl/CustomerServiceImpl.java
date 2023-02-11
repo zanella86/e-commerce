@@ -5,6 +5,8 @@ import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchAddressDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
+import br.com.fiap.sportconnection.ecommerce.mapper.CustomerEntityMappper;
+import br.com.fiap.sportconnection.ecommerce.repository.AddressRepository;
 import br.com.fiap.sportconnection.ecommerce.repository.CustomerRepository;
 import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,9 +24,11 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final AddressRepository addressRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, AddressRepository addressRepository) {
         this.customerRepository = customerRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override
@@ -122,8 +126,20 @@ public class CustomerServiceImpl implements CustomerService {
             evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
     )
     public CustomerDTO add(CustomerDTO customerDTO) {
-        var customerEntity = new ObjectMapper().convertValue(customerDTO, CustomerEntity.class);
-        return new ObjectMapper().convertValue(customerRepository.save(customerEntity), CustomerDTO.class);
+        //var customerEntity = new ObjectMapper().convertValue(customerDTO, CustomerEntity.class);
+
+        //salvar as entidades separadas
+        CustomerEntity customerEntity = CustomerEntityMappper.customerDTOToCustomerEntitySave(customerDTO);
+        CustomerEntity finalCustomerEntity = customerRepository.save(customerEntity);
+
+        //salvar os enderecos
+        customerDTO.addresses().stream().forEach(address -> {
+            address.setCustomerEntity(finalCustomerEntity);
+            addressRepository.save(address);
+        });
+
+        //todo - precisa setar o id no dto
+        return customerDTO;
     }
 
 }
