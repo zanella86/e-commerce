@@ -109,6 +109,11 @@ Temos alguns mappers responsáveis pela conversão do DTO para nossas ENTITIES.
 Na pasta docs na raiz do projeto tem uma collection configurada com as principais chamadas do nosso sistema
 e-commerce.postman_collection.json
 
+### Swagger
+Implementamos a documentação do swagger que esta disponível no seguinte endpoint:
+http://localhost:8080/e-commerce/swagger-ui/index.html#/
+
+![Swagger](docs/swagger.png)
 ---
 
 # REFERÊNCIAS
