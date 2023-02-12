@@ -40,7 +40,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Cacheable(value = ProductCache.NAME_ALL, unless = ProductCache.UNLESS_ALL)
     public List<ProductDTO> list() {
-        List<ProductEntity> all = productRepository.findAll();
         return productRepository.findAll()
                 .stream()
                 .map(ProductMapper::productEntityToProductDTO)

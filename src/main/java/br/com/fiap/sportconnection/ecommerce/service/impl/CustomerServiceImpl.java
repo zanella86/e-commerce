@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
         if(customer.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.ofNullable(new ObjectMapper().convertValue(customer.get(), CustomerDTO.class));
+        return Optional.ofNullable(CustomerMapper.customerEntityToCustomerDTO(customer.get()));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> list() {
         return customerRepository.findAll()
                 .stream()
-                .map(c -> new ObjectMapper().convertValue(c, CustomerDTO.class))
+                .map(CustomerMapper::customerEntityToCustomerDTO)
                 .collect(Collectors.toList());
     }
 
@@ -58,6 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
     )
     public void remove(Long id) {
         try {
+            addressRepository.deleteAllByCustomerId(id);
             customerRepository.deleteById(id);   //FIXME: De acordo com a documentação, se o elementro não for encontrado o mesmo deveria ser ignorado. (Bug do Spring?)
         }catch(org.springframework.dao.EmptyResultDataAccessException ex) {
 
@@ -72,15 +73,15 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO update(CustomerDTO customerDTO) {
         CustomerEntity customerEntity = customerRepository.save(
                 CustomerEntity.builder()
-                        .id(customerDTO.id())
-                        .name(customerDTO.name())
-                        .birthDate(customerDTO.birthDate())
-                        .document(customerDTO.document())
-                        .documentType(customerDTO.documentType())
-                        .addresses(customerDTO.addresses())
+                        .id(customerDTO.getId())
+                        .name(customerDTO.getName())
+                        .birthDate(customerDTO.getBirthDate())
+                        .document(customerDTO.getDocument())
+                        .documentType(customerDTO.getDocumentType())
+                        .addresses(customerDTO.getAddresses())
                         .build()
         );
-        return new ObjectMapper().convertValue(customerEntity, CustomerDTO.class);
+        return CustomerMapper.customerEntityToCustomerDTO(customerEntity);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class CustomerServiceImpl implements CustomerService {
             customer.get().setAddresses(customerPatchDTO.addresses());
 
             CustomerEntity customerEntity = customerRepository.save(customer.get());
-            return Optional.of(new ObjectMapper().convertValue(customerEntity, CustomerDTO.class));
+            return Optional.ofNullable(CustomerMapper.customerEntityToCustomerDTO(customerEntity));
         }
         return Optional.empty();
     }
@@ -109,19 +110,16 @@ public class CustomerServiceImpl implements CustomerService {
             evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
     )
     public CustomerDTO add(CustomerDTO customerDTO) {
-        //var customerEntity = new ObjectMapper().convertValue(customerDTO, CustomerEntity.class);
 
-        //salvar as entidades separadas
         CustomerEntity customerEntity = CustomerMapper.customerDTOToCustomerEntitySave(customerDTO);
         CustomerEntity finalCustomerEntity = customerRepository.save(customerEntity);
+        customerDTO.setId(finalCustomerEntity.getId());
 
-        //salvar os enderecos
-        customerDTO.addresses().stream().forEach(address -> {
+        customerDTO.getAddresses().stream().forEach(address -> {
             address.setCustomerEntity(finalCustomerEntity);
             addressRepository.save(address);
         });
 
-        //todo - precisa setar o id no dto
         return customerDTO;
     }
 
