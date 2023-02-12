@@ -37,7 +37,8 @@ public class CustomerServiceImpl implements CustomerService {
         if(customer.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.ofNullable(CustomerMapper.customerEntityToCustomerDTO(customer.get()));
+        var address =  addressRepository.getAllByCustomerId(id);
+        return Optional.ofNullable(CustomerMapper.customerEntityToCustomerDTO(customer.get(), address));
     }
 
     @Override
@@ -45,7 +46,10 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> list() {
         return customerRepository.findAll()
                 .stream()
-                .map(CustomerMapper::customerEntityToCustomerDTO)
+                .map(customer -> CustomerMapper
+                        .customerEntityToCustomerDTO(
+                                customer,
+                                addressRepository.getAllByCustomerId(customer.getId())))
                 .collect(Collectors.toList());
     }
 
