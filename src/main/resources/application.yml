@@ -9,7 +9,7 @@ spring:
   datasource:
     url: "jdbc:mysql://localhost:3306/my-ecommerce?serverTimezone=UTC"
     username: "root"
-    password: "250128518"
+    password: "admin"
     driver-class-name: "com.mysql.cj.jdbc.Driver"
     initialization-mode: "always"
   jpa:
