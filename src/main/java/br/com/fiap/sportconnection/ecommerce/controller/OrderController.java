@@ -7,6 +7,8 @@ import br.com.fiap.sportconnection.ecommerce.exceptions.NotFoundException;
 import br.com.fiap.sportconnection.ecommerce.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,27 +29,50 @@ public class OrderController {
     }
 
     @GetMapping("{id}")
-    public OrderDTO getById(@PathVariable("id") Long id) throws NotFoundException {
-        return orderService.get(id);
+    public ResponseEntity<String> getById(@PathVariable("id") Long id) throws NotFoundException {
+        try {
+            orderService.remove(id);
+            return ResponseEntity.ok(orderService.get(id).toString());
+        } catch(Exception ex){
+            if(ex instanceof NotFoundException)
+                return ResponseEntity.notFound().build();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Long id) throws NotFoundException {
-        orderService.remove(id);
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) throws NotFoundException {
+        try {
+            orderService.remove(id);
+            return ResponseEntity.ok().build();
+        } catch(Exception ex){
+            if(ex instanceof NotFoundException)
+                return ResponseEntity.unprocessableEntity().build();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PostMapping
-    public OrderDTO add(@RequestBody OrderDTO orderDTO) throws NotFoundException {
-        return orderService.add(orderDTO);
+    public ResponseEntity<String> add(@RequestBody OrderDTO orderDTO) throws NotFoundException {
+        try {
+            return ResponseEntity.ok(orderService.add(orderDTO).toString());
+        } catch(Exception ex) {
+            if(ex instanceof NotFoundException)
+                return ResponseEntity.notFound().build();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PostMapping("product")
-    public OrderDTO addProduct(@RequestBody OrderProductDTO orderProductDTO) throws NotFoundException, NotEnoughResourceException {
+    public ResponseEntity<String> addProduct(@RequestBody OrderProductDTO orderProductDTO) throws NotFoundException, NotEnoughResourceException {
         try {
-            return orderService.addOrderProduct(orderProductDTO);
+            return ResponseEntity.ok(orderService.addOrderProduct(orderProductDTO).toString());
         } catch (Exception ex){
-
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            if(ex instanceof NotFoundException)
+                return ResponseEntity.notFound().build();
+            if(ex instanceof NotEnoughResourceException)
+                return ResponseEntity.badRequest().body("Not enough resources");
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
