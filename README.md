@@ -44,11 +44,6 @@ do sistema.
 
 # OVERVIEW
 
-<!--
-- Fluxo
-![FLUXO](docs/fluxo.PNG)
--->
-
 - MER
 
 ![MER](docs/MER.png)
@@ -61,13 +56,6 @@ do sistema.
 - RM346511: Jônatha Lacerda Gonzaga ([jhowlacerda](https://github.com/jhowlacerda))
 - RM346958: Thiago de Souza Zanella ([zanella86](https://github.com/zanella86))
 
-<!--
-
----
-
-# REPOSITÓRIOS RELACIONADOS
--->
-
 ---
 
 # FERRAMENTAS / TECNOLOGIAS
@@ -79,6 +67,8 @@ do sistema.
 - MySQL Workbench 8.0 CE
 - Redis 2.4.5
 - Spring Framework 3.0.2 (Java 17+)
+- Docker
+- Swagger
 
 ---
 
