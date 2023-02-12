@@ -83,6 +83,9 @@ do sistema.
 ---
 
 # CONSTRUÇÃO
+Escolhemos a estrutura de Controller/Service/Repository. Onde a controller disponibiliza os endpoints da nossa API, na camada de SERVICE estão as regras de negócio
+e no repository a consulta/inserção ao banco.
+Temos alguns mappers responsáveis pela conversão do DTO para nossas ENTITIES.
 
 ![Spring Initializr](docs/spring-initializr-setup.PNG)
 
@@ -101,6 +104,10 @@ do sistema.
 - Execute o servidor `Redis`
 
 ![Redis-Starter-Server](docs/redis-starter-server.PNG)
+
+### Postman
+Na pasta docs na raiz do projeto tem uma collection configurada com as principais chamadas do nosso sistema
+e-commerce.postman_collection.json
 
 ---
 
