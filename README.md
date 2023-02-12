@@ -105,6 +105,52 @@ Temos alguns mappers responsáveis pela conversão do DTO para nossas ENTITIES.
 
 ![Redis-Starter-Server](docs/redis-starter-server.PNG)
 
+
+- Ou utilize o docker (**necessário ter instalado o docker na máquina**)
+
+Para subir o redis basta ir até a pasta docker-redis na raiz do projeto, nesta pasta terá um arquivo
+chamado docker-compose.yml. Basta executar o comando: `docker-compose up`
+
+Ele irá subir um container com o redis na porta padrão do redis (**6379**)
+
+![Docker compose up](docs/docker_compose_command.png)
+
+**Como validar se esta funcionando ?**
+
+Digite o comando para lista os containers ativos: `docker container ls `
+
+Na imagem abaixo podemos identificar o nosso container do redis rodando com
+o nome **docker-redis_redis_1**
+
+![Docker container ls](docs/docker_container_ls.png)
+
+Feito isso é possível conectar no nosso container e ver os logs do redis,
+execute o seguinte comando: `docker logs <nome_container> `
+
+EX: `docker logs docker-redis_redis_1`
+
+![Docker redis logs](docs/docker_conectando_container_logs.png)
+
+E por fim, vamos conectar no container. 
+
+Utilize este comando: `docker exec -it <nome_container> sh`
+
+EX: `docker exec -it docker-redis_redis_1 sh`
+
+
+![Docker connect container](docs/docker_connect_container.png)
+
+Se o cursor estiver piscando, quer dizer que você ta conectado, porém para executar os comandos
+do redis, precisamos executar mais um comando: `redis-cli`
+
+E pronto, you're good to go!
+
+![Docker redis ready](docs/docker_conectado_redis_ready.png)
+
+
+
+
+
 ### Postman
 Na pasta docs na raiz do projeto tem uma collection configurada com as principais chamadas do nosso sistema
 e-commerce.postman_collection.json
