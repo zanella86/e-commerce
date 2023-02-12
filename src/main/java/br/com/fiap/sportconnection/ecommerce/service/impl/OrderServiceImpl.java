@@ -76,8 +76,7 @@ public class OrderServiceImpl implements OrderService {
             }
     )
     public void remove(Long id) throws NotFoundException {
-        OrderEntity order = getOrder(id);
-
+        getOrder(id);
         orderProductRepository.deleteAllByOrderId(id);
         orderRepository.deleteById(id);
     }

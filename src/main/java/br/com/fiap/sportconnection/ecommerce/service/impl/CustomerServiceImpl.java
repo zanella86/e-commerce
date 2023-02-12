@@ -2,10 +2,9 @@ package br.com.fiap.sportconnection.ecommerce.service.impl;
 
 import br.com.fiap.sportconnection.ecommerce.cache.CustomerCache;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchAddressDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
-import br.com.fiap.sportconnection.ecommerce.mapper.CustomerEntityMappper;
+import br.com.fiap.sportconnection.ecommerce.mapper.CustomerEntityMapper;
 import br.com.fiap.sportconnection.ecommerce.repository.AddressRepository;
 import br.com.fiap.sportconnection.ecommerce.repository.CustomerRepository;
 import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
@@ -106,22 +105,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Caching(
-            put = { @CachePut(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE)},
-            evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
-    )
-    public Optional<CustomerDTO> update(Long id, CustomerPatchAddressDTO customerPatchAddressDTO) {
-        var customer = customerRepository.findById(id);
-        if(customer.isPresent()) {
-            customer.get().setAddresses(customerPatchAddressDTO.addresses());
-
-            CustomerEntity customerEntity = customerRepository.save(customer.get());
-            return Optional.of(new ObjectMapper().convertValue(customerEntity, CustomerDTO.class));
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    @Caching(
             put = { @CachePut(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE_OBJ)},
             evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
     )
@@ -129,7 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
         //var customerEntity = new ObjectMapper().convertValue(customerDTO, CustomerEntity.class);
 
         //salvar as entidades separadas
-        CustomerEntity customerEntity = CustomerEntityMappper.customerDTOToCustomerEntitySave(customerDTO);
+        CustomerEntity customerEntity = CustomerEntityMapper.customerDTOToCustomerEntitySave(customerDTO);
         CustomerEntity finalCustomerEntity = customerRepository.save(customerEntity);
 
         //salvar os enderecos

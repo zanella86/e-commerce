@@ -1,7 +1,6 @@
 package br.com.fiap.sportconnection.ecommerce.service;
 
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchAddressDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
 import jakarta.transaction.Transactional;
 
@@ -22,9 +21,6 @@ public interface CustomerService {
 
     @Transactional
     Optional<CustomerDTO> update(Long id, CustomerPatchDTO customerPatchDTO);
-
-    @Transactional
-    Optional<CustomerDTO> update(Long id, CustomerPatchAddressDTO customerPatchAddressDTO);
 
     @Transactional
     CustomerDTO add(CustomerDTO customerDTO);

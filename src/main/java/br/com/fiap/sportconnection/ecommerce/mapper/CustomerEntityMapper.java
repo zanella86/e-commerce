@@ -3,11 +3,7 @@ package br.com.fiap.sportconnection.ecommerce.mapper;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
 
-public final class CustomerEntityMappper {
-
-    public static CustomerDTO customerEntityToCustomerDTO(CustomerEntity entity) {
-        return null;
-    }
+public final class CustomerEntityMapper {
 
     public static CustomerEntity customerDTOToCustomerEntitySave(CustomerDTO customer){
         return  CustomerEntity.builder()

@@ -9,14 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class OrderEntityMapper {
-    public static OrderEntity orderDTOToOrderEntity (OrderDTO orderDTO) {
-        OrderEntity order = OrderEntity.builder()
-                .total(orderDTO.total())
-                .discount(orderDTO.discount())
-                .description(orderDTO.description()).build();
 
-        return order;
-    }
     public static OrderEntity orderDTOToOrderEntity (OrderDTO orderDTO, CustomerEntity customer) {
         OrderEntity order = OrderEntity.builder()
                 .total(orderDTO.total())
