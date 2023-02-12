@@ -2,19 +2,16 @@ package br.com.fiap.sportconnection.ecommerce.service.impl;
 
 import br.com.fiap.sportconnection.ecommerce.cache.ProductCache;
 import br.com.fiap.sportconnection.ecommerce.dto.ProductDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.ProductPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.ProductEntity;
 import br.com.fiap.sportconnection.ecommerce.mapper.ProductMapper;
 import br.com.fiap.sportconnection.ecommerce.repository.ProductRepository;
 import br.com.fiap.sportconnection.ecommerce.service.ProductService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,9 +52,9 @@ public class ProductServiceImpl implements ProductService {
     )
     public void remove(Long id) {
         try {
-            productRepository.deleteById(id);   //FIXME: De acordo com a documentação, se o elementro não for encontrado o mesmo deveria ser ignorado. (Bug do Spring?)
+            productRepository.deleteById(id);
         }catch(org.springframework.dao.EmptyResultDataAccessException ex) {
-
+            //FIXME: De acordo com a documentação, se o elementro não for encontrado o mesmo deveria ser ignorado. (Bug do Spring Data?)
         }
     }
 
@@ -68,16 +65,8 @@ public class ProductServiceImpl implements ProductService {
     )
     public ProductDTO update(ProductDTO productDTO) {
         ProductEntity productEntity = productRepository.save(
-                ProductEntity.builder()
-                        .id(productDTO.getId())
-                        .code(productDTO.getCode())
-                        .name(productDTO.getName())
-                        .description(productDTO.getDescription())
-                        .stockQuantity(productDTO.getStockQuantity())
-                        .unityPrice(productDTO.getUnityPrice())
-                        .build()
+                ProductMapper.productDTOToProductEntity(productDTO)
         );
-
         return ProductMapper.productEntityToProductDTO(productEntity);
     }
 

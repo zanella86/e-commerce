@@ -2,13 +2,12 @@ package br.com.fiap.sportconnection.ecommerce.service.impl;
 
 import br.com.fiap.sportconnection.ecommerce.cache.CustomerCache;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
+import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchAddressDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
 import br.com.fiap.sportconnection.ecommerce.mapper.CustomerMapper;
 import br.com.fiap.sportconnection.ecommerce.repository.AddressRepository;
 import br.com.fiap.sportconnection.ecommerce.repository.CustomerRepository;
 import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -63,9 +62,9 @@ public class CustomerServiceImpl implements CustomerService {
     public void remove(Long id) {
         try {
             addressRepository.deleteAllByCustomerId(id);
-            customerRepository.deleteById(id);   //FIXME: De acordo com a documentação, se o elementro não for encontrado o mesmo deveria ser ignorado. (Bug do Spring?)
+            customerRepository.deleteById(id);
         }catch(org.springframework.dao.EmptyResultDataAccessException ex) {
-
+            // FIXME: De acordo com a documentação, se o elementro não for encontrado o mesmo deveria ser ignorado. (Bug do Spring?)
         }
     }
 
@@ -76,14 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
     )
     public CustomerDTO update(CustomerDTO customerDTO) {
         CustomerEntity customerEntity = customerRepository.save(
-                CustomerEntity.builder()
-                        .id(customerDTO.getId())
-                        .name(customerDTO.getName())
-                        .birthDate(customerDTO.getBirthDate())
-                        .document(customerDTO.getDocument())
-                        .documentType(customerDTO.getDocumentType())
-                        .addresses(customerDTO.getAddresses())
-                        .build()
+                CustomerMapper.customerDTOToCustomerEntitySave(customerDTO)
         );
         return CustomerMapper.customerEntityToCustomerDTO(customerEntity);
     }
@@ -93,19 +85,14 @@ public class CustomerServiceImpl implements CustomerService {
             put = { @CachePut(value = CustomerCache.NAME_ONE, key = CustomerCache.KEY_ONE)},
             evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
     )
-    public Optional<CustomerDTO> update(Long id, CustomerPatchDTO customerPatchDTO) {
+    public Optional<CustomerDTO> update(Long id, CustomerPatchAddressDTO customerPatchAddressDTO) {
         var customer = customerRepository.findById(id);
-        if(customer.isPresent()) {
-            customer.get().setName(customerPatchDTO.name());
-            customer.get().setBirthDate(customerPatchDTO.birthDate());
-            customer.get().setDocument(customerPatchDTO.document());
-            customer.get().setDocumentType(customerPatchDTO.documentType());
-            customer.get().setAddresses(customerPatchDTO.addresses());
-
-            CustomerEntity customerEntity = customerRepository.save(customer.get());
-            return Optional.ofNullable(CustomerMapper.customerEntityToCustomerDTO(customerEntity));
+        if(!customer.isPresent()) {
+            return Optional.empty();
         }
-        return Optional.empty();
+        customer.get().setAddresses(customerPatchAddressDTO.getAddresses());
+        CustomerEntity customerEntity = customerRepository.save(customer.get());
+        return Optional.ofNullable(CustomerMapper.customerEntityToCustomerDTO(customerEntity));
     }
 
     @Override
@@ -114,7 +101,6 @@ public class CustomerServiceImpl implements CustomerService {
             evict = {@CacheEvict(value = CustomerCache.NAME_ALL, allEntries = true)}
     )
     public CustomerDTO add(CustomerDTO customerDTO) {
-
         CustomerEntity customerEntity = CustomerMapper.customerDTOToCustomerEntitySave(customerDTO);
         CustomerEntity finalCustomerEntity = customerRepository.save(customerEntity);
         customerDTO.setId(finalCustomerEntity.getId());

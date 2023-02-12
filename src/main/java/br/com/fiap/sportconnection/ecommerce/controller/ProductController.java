@@ -1,7 +1,6 @@
 package br.com.fiap.sportconnection.ecommerce.controller;
 
 import br.com.fiap.sportconnection.ecommerce.dto.ProductDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.ProductPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +22,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.FOUND)
     public ProductDTO getById(@PathVariable("id") Long id) {
         var product = productService.get(id);
-        if(product.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
-        }
-        return product.get();
+        return product.orElseThrow(() ->  new ResponseStatusException(HttpStatus.NO_CONTENT));
     }
 
     @GetMapping

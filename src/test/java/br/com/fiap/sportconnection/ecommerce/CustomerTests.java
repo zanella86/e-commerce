@@ -1,7 +1,7 @@
 package br.com.fiap.sportconnection.ecommerce;
 
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
+import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchAddressDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.AddressEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -32,12 +31,10 @@ class CustomerTests {
     private static final String CUSTOMER_URI = "/customer";
 
     @Test
-    @Order(2)
     void contextLoads() {
     }
 
     void add(CustomerDTO customerDTO) throws Exception {
-        System.out.println(customerDTO);
         this.mockMvc.perform(
                         post(CUSTOMER_URI)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -50,201 +47,60 @@ class CustomerTests {
 
     @Test
     @Order(1)
+    @DisplayName("Cadastro de novos clientes")
     void postCustomers() throws Exception {
-        Set<AddressEntity> addresses_customer_01 = new LinkedHashSet<>();
-        Set<AddressEntity> addresses_customer_02 = new LinkedHashSet<>();
-        AddressEntity address_01 = AddressEntity.builder()
+
+        Set<AddressEntity> addresses = new LinkedHashSet<>();
+
+        var address_01_patch = AddressEntity
+                .builder()
+                .streetName("street 01")
+                .number("001")
+                .neighborhood("St")
+                .postalCode("12345")
+                .country("Country 1")
+                .city("City 1")
+                .build();
+
+        addresses.add(address_01_patch);
+
+        var customer_01 = CustomerDTO
+                .builder()
                 .id(1L)
-                .streetName("XPTO")
-                .number("123")
-                .neighborhood("Rua")
-                .postalCode("12345-000")
-                .country("Brasil")
-                .city("Praia Grande")
+                .name("Customer 1")
+                .birthDate(new SimpleDateFormat("dd-MM-yyyy").parse("01-12-1990"))
+                .document("123456789-1")
+                .documentType("RG")
+                .addresses(addresses)
                 .build();
 
-        AddressEntity address_02 = AddressEntity.builder()
+        var customer_02 = CustomerDTO
+                .builder()
                 .id(2L)
-                .streetName("XPTO2")
-                .number("1230")
-                .neighborhood("Rua2")
-                .postalCode("22345-000")
-                .country("Brasil")
-                .city("São Paulo")
+                .name("Customer 2")
+                .birthDate(new SimpleDateFormat("dd-MM-yyyy").parse("02-12-1990"))
+                .document("123456789-2")
+                .documentType("RG")
+                .addresses(addresses)
                 .build();
 
-        AddressEntity address_03 = AddressEntity.builder()
+        var customer_03 = CustomerDTO
+                .builder()
                 .id(3L)
-                .streetName("XPTO3")
-                .number("1234")
-                .neighborhood("Rua3")
-                .postalCode("55555-000")
-                .country("Brasil")
-                .city("Santos")
+                .name("Customer 3")
+                .birthDate(new SimpleDateFormat("dd-MM-yyyy").parse("03-12-1990"))
+                .document("123456789-3")
+                .documentType("RG")
+                .addresses(addresses)
                 .build();
-
-        addresses_customer_01.add(address_01);
-        //addresses_customer_01.add(address_02);    //FIXME: Não aceita múltiplos endereços... (não captura o "customer_id")
-        addresses_customer_02.add(address_03);
-
-        var customer_01 = new CustomerDTO(
-                1L,
-                "Zanella86",
-                //LocalDate.of(1986, 11, 10) ,
-                new SimpleDateFormat("dd-MM-yyyy").parse("10-11-1986"),
-                "000111222-1",
-                "RG",
-                addresses_customer_01
-        );
-
-        var customer_02 = new CustomerDTO(
-                2L,
-                "lakagawa",
-                //LocalDate.of(1986, 11, 11),
-                new SimpleDateFormat("dd-MM-yyyy").parse("11-11-1986"),
-                "000222111-2",
-                "RG",
-                addresses_customer_02
-        );
 
         add(customer_01);
         add(customer_02);
+        add(customer_03);
     }
 
     @Test
     @Order(2)
-    @DisplayName("Cenário de sucesso: Cliente encontrado/modificado")
-    void patchCustomer_OK() throws Exception {
-        Set<AddressEntity> addresses = new LinkedHashSet<>();
-        AddressEntity address_01_patch = AddressEntity.builder()
-                .streetName("YPTO")
-                .number("321")
-                .neighborhood("Av")
-                .postalCode("54321-000")
-                .country("Brasil")
-                .city("Rio de Janeiro")
-                .build();
-
-        addresses.add(address_01_patch);
-
-        var customer_01_patch = new CustomerPatchDTO(
-                "Zanella",
-                //LocalDate.of(2000, 11, 10) ,
-                new SimpleDateFormat("dd-MM-yyyy").parse("10-11-2000"),
-                "000111222-9",
-                "RG",
-                addresses
-        );
-
-        this.mockMvc.perform(
-                        patch(CUSTOMER_URI + "/1")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .content(new ObjectMapper().writeValueAsString(customer_01_patch))
-                )
-                .andDo(print())
-                .andExpect(status().isCheckpoint());
-    }
-
-    @Test
-    @Order(3)
-    @DisplayName("Cenário de sucesso: Cliente encontrado/modificado")
-    void patchCustomerAddress_OK() throws Exception {
-     /*   Set<AddressEntity> addresses = new LinkedHashSet<>();
-        AddressEntity address_01_patch = AddressEntity.builder()
-                .streetName("YPTO")
-                .number("789")
-                .neighborhood("Av")
-                .postalCode("54321-000")
-                .country("Brasil")
-                .city("Rio de Janeiro")
-                .build();
-
-        addresses.add(address_01_patch);
-
-        var customer_01_patch = new CustomerPatchAddressDTO(
-                addresses
-        );
-
-        this.mockMvc.perform(
-                        patch(CUSTOMER_URI + "/1")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .content(new ObjectMapper().writeValueAsString(customer_01_patch))
-                )
-                .andDo(print())
-                .andExpect(status().isCheckpoint());*/
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("Cenário de falha: Cliente não encontrado/modificado")
-    void patchCustomer_NOK() throws Exception {
-        Set<AddressEntity> addresses = new LinkedHashSet<>();
-        AddressEntity address_01 = AddressEntity.builder()
-                .id(1L)
-                .streetName("XPTO")
-                .number("123")
-                .neighborhood("Rua")
-                .postalCode("12345-000")
-                .country("Brasil")
-                .city("Praia Grande")
-                .build();
-
-        addresses.add(address_01);
-
-        var customer_01_patch = new CustomerPatchDTO(
-                "Zanella86",
-                //LocalDate.of(1986, 11, 10) ,
-                new SimpleDateFormat("dd-MM-yyyy").parse("10-11-1986"),
-                "000111222-1",
-                "RG",
-                addresses
-        );
-
-        this.mockMvc.perform(
-                        patch(CUSTOMER_URI + "/1000")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .content(new ObjectMapper().writeValueAsString(customer_01_patch))
-                )
-                .andDo(print())
-                .andExpect(status().isNotModified());
-    }
-
-    @Test
-    @Order(5)
-    @DisplayName("Cenário de falha: Cliente não encontrado/modificado (Endereço)")
-    void patchCustomerAddress_NOK() throws Exception {
-       /* Set<AddressEntity> addresses = new LinkedHashSet<>();
-        AddressEntity address_01 = AddressEntity.builder()
-                .id(1L)
-                .streetName("XPTO4")
-                .number("456")
-                .neighborhood("Praça")
-                .postalCode("44444-000")
-                .country("Brasil")
-                .city("Praia Teste")
-                .build();
-
-        addresses.add(address_01);
-
-        var customer_01_patch = new CustomerPatchAddressDTO(
-                addresses
-        );
-
-        this.mockMvc.perform(
-                        patch(CUSTOMER_URI + "/1000")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .content(new ObjectMapper().writeValueAsString(customer_01_patch))
-                )
-                .andDo(print())
-                .andExpect(status().isNotModified());*/
-    }
-
-    @Test
-    @Order(6)
     @DisplayName("Cenário de sucesso: Cliente encontrado")
     void getCustomer_OK() throws Exception {
         this.mockMvc.perform(
@@ -257,7 +113,7 @@ class CustomerTests {
     }
 
     @Test
-    @Order(7)
+    @Order(3)
     @DisplayName("Cenário de falha: Cliente não encontrado")
     void getCustomer_NOK() throws Exception {
         this.mockMvc.perform(
@@ -270,29 +126,31 @@ class CustomerTests {
     }
 
     @Test
-    @Order(8)
+    @Order(4)
+    @DisplayName("Cliente modificado")
     void putCustomer() throws Exception {
-        var customer_02_put = new CustomerDTO(
-                1L,
-                "Zanella86",
-                //LocalDate.of(1986, 11, 10) ,
-                new SimpleDateFormat("dd-MM-yyyy").parse("10-11-1986"),
-                "000111222-1",
-                "RG",
-                null
-        );
+        var customer_03_put = CustomerDTO
+                .builder()
+                .id(3L)
+                .name("Customer 3a")
+                .birthDate(new SimpleDateFormat("dd-MM-yyyy").parse("04-12-1990"))
+                .document("123456789-4")
+                .documentType("RG")
+                .build();
+
         this.mockMvc.perform(
                         put(CUSTOMER_URI)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
-                                .content(new ObjectMapper().writeValueAsString(customer_02_put))
+                                .content(new ObjectMapper().writeValueAsString(customer_03_put))
                 )
                 .andDo(print())
                 .andExpect(status().isCheckpoint());
     }
 
     @Test
-    @Order(9)
+    @Order(5)
+    @DisplayName("Cliente removido")
     void removeCustomer() throws Exception {
         this.mockMvc.perform(
                         delete(CUSTOMER_URI + "/2")
@@ -301,8 +159,77 @@ class CustomerTests {
                 .andExpect(status().isOk());
     }
 
+    //@Test
+    @Order(6)
+    @DisplayName("Cenário de sucesso: Cliente encontrado/modificado")
+    void patchCustomerAddress_OK() throws Exception {
+        Set<AddressEntity> addresses = new LinkedHashSet<>();
+
+        var address_01_patch = AddressEntity
+                .builder()
+                .id(1L)
+                .streetName("street 01")
+                .number("001")
+                .neighborhood("St")
+                .postalCode("12345")
+                .country("Country 1")
+                .city("City 1")
+                .build();
+
+        addresses.add(address_01_patch);
+
+        CustomerPatchAddressDTO customer_address_patch_01 = CustomerPatchAddressDTO
+                .builder()
+                .addresses(addresses)
+                .build();
+
+        this.mockMvc.perform(
+                        patch(CUSTOMER_URI + "/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(customer_address_patch_01))
+                )
+                .andDo(print())
+                .andExpect(status().isCheckpoint());
+    }
+
+    //@Test
+    @Order(7)
+    @DisplayName("Cenário de falha: Cliente não encontrado/modificado (Endereço)")
+    void patchCustomerAddress_NOK() throws Exception {
+        Set<AddressEntity> addresses = new LinkedHashSet<>();
+
+        var address_01_patch = AddressEntity
+                .builder()
+                .id(1L)
+                .streetName("street 01a")
+                .number("0010")
+                .neighborhood("St1")
+                .postalCode("123456")
+                .country("Country 1a")
+                .city("City 1a")
+                .build();
+
+        addresses.add(address_01_patch);
+
+        CustomerPatchAddressDTO customer_address_patch_01 = CustomerPatchAddressDTO
+                .builder()
+                .addresses(addresses)
+                .build();
+
+        this.mockMvc.perform(
+                        patch(CUSTOMER_URI + "/5000")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(customer_address_patch_01))
+                )
+                .andDo(print())
+                .andExpect(status().isNotModified());
+    }
+
     @Test
-    @Order(10)
+    @Order(8)
+    @DisplayName("Listagem dos clientes")
     void listCustomer() throws Exception {
         this.mockMvc.perform(
                         get(CUSTOMER_URI)

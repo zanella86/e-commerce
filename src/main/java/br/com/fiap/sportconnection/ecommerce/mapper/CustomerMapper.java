@@ -4,6 +4,7 @@ import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.AddressEntity;
 import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public final class CustomerMapper {
@@ -33,4 +34,5 @@ public final class CustomerMapper {
         customerDTO.setAddresses(address);
         return customerDTO;
     }
+
 }

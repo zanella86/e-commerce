@@ -1,7 +1,6 @@
 package br.com.fiap.sportconnection.ecommerce.service;
 
 import br.com.fiap.sportconnection.ecommerce.dto.ProductDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.ProductPatchDTO;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -18,8 +17,6 @@ public interface ProductService {
 
     @Transactional
     ProductDTO update(ProductDTO productDTO);
-
-
 
     @Transactional
     ProductDTO add(ProductDTO productDTO);

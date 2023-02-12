@@ -1,7 +1,7 @@
 package br.com.fiap.sportconnection.ecommerce.controller;
 
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
+import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchAddressDTO;
 import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -55,19 +55,6 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CHECKPOINT)
     public CustomerDTO alter(
             @PathVariable("id") Long id,
-            @RequestBody CustomerPatchDTO customerPatchDTO) {
-        var customerDTO = customerService.update(id, customerPatchDTO);
-        if(customerDTO.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_MODIFIED);
-        }
-        return customerDTO.get();
-    }
-
-    /*
-    @PatchMapping("{id}")
-    @ResponseStatus(HttpStatus.CHECKPOINT)
-    public CustomerDTO alter(
-            @PathVariable("id") Long id,
             @RequestBody CustomerPatchAddressDTO customerPatchAddressDTO) {
         var customerDTO = customerService.update(id, customerPatchAddressDTO);
         if(customerDTO.isEmpty()) {
@@ -75,7 +62,6 @@ public class CustomerController {
         }
         return customerDTO.get();
     }
-    */
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

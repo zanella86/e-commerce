@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class ProductDTO implements Serializable {

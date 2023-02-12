@@ -7,18 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 @Builder
 @AllArgsConstructor
 @Getter
 @Setter
-public class CustomerDTO implements Serializable {
-    private Long id;
-    private String name;
-    private Date birthDate;
-    private String document;
-    private String documentType;
+public class CustomerPatchAddressDTO implements Serializable {
     private Set<AddressEntity> addresses;
 }
