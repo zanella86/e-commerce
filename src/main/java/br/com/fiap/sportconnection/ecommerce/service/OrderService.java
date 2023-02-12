@@ -3,6 +3,7 @@ package br.com.fiap.sportconnection.ecommerce.service;
 import br.com.fiap.sportconnection.ecommerce.dto.OrderDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.OrderProductDTO;
 import br.com.fiap.sportconnection.ecommerce.exceptions.EmptyException;
+import br.com.fiap.sportconnection.ecommerce.exceptions.NotEnoughResourceException;
 import br.com.fiap.sportconnection.ecommerce.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -23,7 +24,7 @@ public interface OrderService {
     @Transactional
     OrderDTO add(OrderDTO order) throws NotFoundException;
 
-    OrderDTO addOrderProduct(OrderProductDTO orderProduct) throws NotFoundException;
+    OrderDTO addOrderProduct(OrderProductDTO orderProduct) throws NotFoundException, NotEnoughResourceException;
 
 
 

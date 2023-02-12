@@ -2,9 +2,13 @@ package br.com.fiap.sportconnection.ecommerce.controller;
 
 import br.com.fiap.sportconnection.ecommerce.dto.OrderDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.OrderProductDTO;
+import br.com.fiap.sportconnection.ecommerce.exceptions.NotEnoughResourceException;
 import br.com.fiap.sportconnection.ecommerce.exceptions.NotFoundException;
 import br.com.fiap.sportconnection.ecommerce.service.OrderService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -38,7 +42,12 @@ public class OrderController {
     }
 
     @PostMapping("product")
-    public OrderDTO addProduct(@RequestBody OrderProductDTO orderProductDTO) throws NotFoundException {
-        return orderService.addOrderProduct(orderProductDTO);
+    public OrderDTO addProduct(@RequestBody OrderProductDTO orderProductDTO) throws NotFoundException, NotEnoughResourceException {
+        try {
+            return orderService.addOrderProduct(orderProductDTO);
+        } catch (Exception ex){
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }

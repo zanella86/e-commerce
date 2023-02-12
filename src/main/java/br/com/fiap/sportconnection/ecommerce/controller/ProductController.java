@@ -51,17 +51,6 @@ public class ProductController {
         return productService.update(productDTO);
     }
 
-    @PatchMapping("{id}")
-    @ResponseStatus(HttpStatus.CHECKPOINT)
-    public ProductDTO alter(
-            @PathVariable("id") Long id,
-            @RequestBody ProductPatchDTO productPatchDTO) {
-        var productDTO = productService.update(id, productPatchDTO);
-        if(productDTO.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_MODIFIED);
-        }
-        return productDTO.get();
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

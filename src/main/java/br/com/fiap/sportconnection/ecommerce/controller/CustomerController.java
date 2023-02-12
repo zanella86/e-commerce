@@ -1,7 +1,6 @@
 package br.com.fiap.sportconnection.ecommerce.controller;
 
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
-import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchAddressDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
 import org.springframework.http.HttpStatus;

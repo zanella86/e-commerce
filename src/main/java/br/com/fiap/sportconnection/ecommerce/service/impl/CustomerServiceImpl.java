@@ -4,7 +4,7 @@ import br.com.fiap.sportconnection.ecommerce.cache.CustomerCache;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.CustomerPatchDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
-import br.com.fiap.sportconnection.ecommerce.mapper.CustomerEntityMapper;
+import br.com.fiap.sportconnection.ecommerce.mapper.CustomerMapper;
 import br.com.fiap.sportconnection.ecommerce.repository.AddressRepository;
 import br.com.fiap.sportconnection.ecommerce.repository.CustomerRepository;
 import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
@@ -112,7 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
         //var customerEntity = new ObjectMapper().convertValue(customerDTO, CustomerEntity.class);
 
         //salvar as entidades separadas
-        CustomerEntity customerEntity = CustomerEntityMapper.customerDTOToCustomerEntitySave(customerDTO);
+        CustomerEntity customerEntity = CustomerMapper.customerDTOToCustomerEntitySave(customerDTO);
         CustomerEntity finalCustomerEntity = customerRepository.save(customerEntity);
 
         //salvar os enderecos

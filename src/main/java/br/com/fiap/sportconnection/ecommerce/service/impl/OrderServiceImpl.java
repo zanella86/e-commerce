@@ -1,24 +1,20 @@
 package br.com.fiap.sportconnection.ecommerce.service.impl;
 
-import br.com.fiap.sportconnection.ecommerce.cache.CustomerCache;
 import br.com.fiap.sportconnection.ecommerce.cache.OrderCache;
-import br.com.fiap.sportconnection.ecommerce.dto.CustomerDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.OrderDTO;
 import br.com.fiap.sportconnection.ecommerce.dto.OrderProductDTO;
 import br.com.fiap.sportconnection.ecommerce.entity.CustomerEntity;
 import br.com.fiap.sportconnection.ecommerce.entity.OrderEntity;
 import br.com.fiap.sportconnection.ecommerce.entity.OrderProductEntity;
 import br.com.fiap.sportconnection.ecommerce.entity.ProductEntity;
-import br.com.fiap.sportconnection.ecommerce.exceptions.EmptyException;
+import br.com.fiap.sportconnection.ecommerce.exceptions.NotEnoughResourceException;
 import br.com.fiap.sportconnection.ecommerce.exceptions.NotFoundException;
-import br.com.fiap.sportconnection.ecommerce.mapper.OrderEntityMapper;
+import br.com.fiap.sportconnection.ecommerce.mapper.OrderMapper;
 import br.com.fiap.sportconnection.ecommerce.repository.CustomerRepository;
 import br.com.fiap.sportconnection.ecommerce.repository.OrderProductRepository;
 import br.com.fiap.sportconnection.ecommerce.repository.OrderRepository;
 import br.com.fiap.sportconnection.ecommerce.repository.ProductRepository;
-import br.com.fiap.sportconnection.ecommerce.service.CustomerService;
 import br.com.fiap.sportconnection.ecommerce.service.OrderService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -57,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO get(Long id) throws NotFoundException {
 
         OrderEntity order = getOrder(id);
-        return OrderEntityMapper.orderEntityToOrderDTO(order);
+        return OrderMapper.orderEntityToOrderDTO(order);
     }
 
     @Override
@@ -65,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> list() {
 
         List<OrderEntity> orders = orderRepository.findAll();
-        return OrderEntityMapper.orderEntityToOrderDTO(orders);
+        return OrderMapper.orderEntityToOrderDTO(orders);
     }
 
     @Override
@@ -88,9 +84,9 @@ public class OrderServiceImpl implements OrderService {
     )
     public OrderDTO update(OrderDTO order) throws NotFoundException{
 
-        OrderEntity orderEntity = getOrder(order.id());
-        orderEntity.setDescription(order.description());
-        orderEntity.setDiscount(order.discount());
+        OrderEntity orderEntity = getOrder(order.getId());
+        orderEntity.setDescription(order.getDescription());
+        orderEntity.setDiscount(order.getDiscount());
 
         orderRepository.save(orderEntity);
         return order;
@@ -101,27 +97,42 @@ public class OrderServiceImpl implements OrderService {
             put = { @CachePut(value = OrderCache.NAME_ONE, key = OrderCache.KEY_ONE_OBJ)},
             evict = {@CacheEvict(value = OrderCache.NAME_ALL, allEntries = true)}
     )
-    public OrderDTO add(OrderDTO order) throws NotFoundException {
+    public OrderDTO add(OrderDTO orderDTO) throws NotFoundException {
 
-        CustomerEntity customer = customerRepository.findById(order.costumerId()).orElseThrow(() -> new NotFoundException("Customer not found"));
-        OrderEntity orderEntity = OrderEntityMapper.orderDTOToOrderEntity(order, customer);
-        orderRepository.save(orderEntity);
-        return order;
+        CustomerEntity customer = customerRepository.findById(orderDTO.getCostumerId()).orElseThrow(() -> new NotFoundException("Customer not found"));
+        OrderEntity orderEntity = OrderMapper.orderDTOToOrderEntity(orderDTO, customer);
+        orderDTO.setId(orderRepository.save(orderEntity).getId());
+        return orderDTO;
     }
 
     @Override
-    public OrderDTO addOrderProduct(OrderProductDTO orderProduct) throws NotFoundException{
-        OrderEntity order = getOrder(orderProduct.orderId());
-        ProductEntity product = productRepository.findById(orderProduct.productId())
+    public OrderDTO addOrderProduct(OrderProductDTO orderProduct) throws NotFoundException, NotEnoughResourceException {
+
+        OrderEntity order = getOrder(orderProduct.getOrderId());
+        ProductEntity product = productRepository.findById(orderProduct.getProductId())
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
-        OrderProductEntity entity = new OrderProductEntity(order, product, orderProduct.quantity());
-        orderProductRepository.save(entity);
+        OrderProductEntity entity = new OrderProductEntity(order, product, orderProduct.getQuantity());
 
-        BigDecimal amount = product.getUnityPrice().multiply(BigDecimal.valueOf(entity.getQuantity()));
-        order.setTotal(order.getTotal().add(amount));
+        validateStock(product, entity.getQuantity());
+        updateOrderAmount(order, product.getUnityPrice(), entity.getQuantity());
+
+        productRepository.save(product);
+        orderProductRepository.save(entity);
         orderRepository.save(order);
 
-        return OrderEntityMapper.orderEntityToOrderDTO(order);
+        return OrderMapper.orderEntityToOrderDTO(order);
+    }
+
+    private void validateStock(ProductEntity product, long quantityProductOrder) throws NotEnoughResourceException {
+        long productStock = product.getStockQuantity() - quantityProductOrder;
+        if(productStock < 0) {
+            throw new NotEnoughResourceException("Not enough on stock");
+        }
+        product.setStockQuantity((int) productStock);
+    }
+    private void updateOrderAmount(OrderEntity order, BigDecimal unityPrice, Long quantityProductOrder){
+        BigDecimal amount = unityPrice.multiply(BigDecimal.valueOf(quantityProductOrder));
+        order.setTotal(order.getTotal().add(amount));
     }
 }

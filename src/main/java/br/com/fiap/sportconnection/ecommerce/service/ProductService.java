@@ -19,8 +19,7 @@ public interface ProductService {
     @Transactional
     ProductDTO update(ProductDTO productDTO);
 
-    @Transactional
-    Optional<ProductDTO> update(Long id, ProductPatchDTO productPatchDTO);
+
 
     @Transactional
     ProductDTO add(ProductDTO productDTO);
