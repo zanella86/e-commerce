@@ -11,27 +11,34 @@ spring:
     username: "root"
     password: "admin"
     driver-class-name: "com.mysql.cj.jdbc.Driver"
-    platform: "org.hibernate.dialect.MySQL5InnoDBDialect"
     initialization-mode: "always"
   jpa:
     open-in-view: true
-    properties:
+    properties: #https://github.com/spring-projects/spring-data-jpa/issues/2717
+      hibernate:
+        dialect: "org.hibernate.dialect.MySQLDialect"
       jakarta:
         persistence:
           sharedCache:
             #ALL | NONE | ENABLE_SELECTIVE | DISABLE_SELECTIVE | UNSPECIFIED
             mode: UNSPECIFIED
+    show_sql: true
+    format_sql: true
+    hibernate:
+      ddl-auto: update
+  #jackson:
+    #serialization:
+      #write-datas-as-timestamps: false
+    #default-property-inclusion: non_null
+  #main:
+    #allow-bean-definition-overriding: true
 
 # Cached Database
-redis:
-  host: "localhost"
-  port: 6379
-  password: "****"
+  redis:
+    host: "localhost"
+    port: 6379
+    password: ""
 
-hibernate:
-  dialect: "org.hibernate.dialect.MySQL5InnoDBDialect"
-  show_sql: true
-  format_sql: true
-  hbm2ddl:
-    auto: update
-  id.new_generator_mappings: true
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'br.com.fiap.sportconnection'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
@@ -15,13 +15,19 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.projectlombok:lombok:1.18.22'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	//implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1'	// Adiciona suporte ao java.time.LocalDate
+	//implementation 'org.apache.commons:commons-dbcp2:2.9.0'	// Suporte ao Redis?
+    compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
+	//testImplementation 'io.projectreactor:reactor-test'
 }
 
 tasks.named('test') {

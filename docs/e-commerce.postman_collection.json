@@ -1,0 +1,333 @@
+{
+	"id": "c96b7477-7a64-44e0-8851-bb8c22cf6c29",
+	"name": "e-commerce",
+	"description": "",
+	"auth": null,
+	"events": null,
+	"variables": [],
+	"order": [],
+	"folders_order": [
+		"4730bc72-e71f-4c52-acfb-226da15fdece",
+		"930bfa39-b51e-4220-9d71-cd4b6c3a1623",
+		"359f00ed-5b0b-4e92-b9c9-79643ccfbb6d"
+	],
+	"folders": [
+		{
+			"id": "930bfa39-b51e-4220-9d71-cd4b6c3a1623",
+			"name": "customer",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "c96b7477-7a64-44e0-8851-bb8c22cf6c29",
+			"folder": null,
+			"order": [
+				"af43ca8c-d801-4d80-87c0-9cc18ca5baff",
+				"d80bee54-5cd1-42f7-b166-9dadc337fa22",
+				"baf7bdac-bbc2-483c-846c-1d63eda96ef0",
+				"94244242-698c-48d9-bd3f-4ab96aa8feef"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "359f00ed-5b0b-4e92-b9c9-79643ccfbb6d",
+			"name": "order",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "c96b7477-7a64-44e0-8851-bb8c22cf6c29",
+			"folder": null,
+			"order": [
+				"5bcf76ee-bbb5-488f-afb9-3f69aeb4af33",
+				"ee95d4dc-7215-4e08-aed5-be6372657485",
+				"77f8566d-2efa-4944-9cb9-ea9fc33a2454",
+				"81f187fd-d9e9-40cc-b182-8c67e9de509f",
+				"a7daa992-0bb9-4691-8230-8765cad119e1"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "4730bc72-e71f-4c52-acfb-226da15fdece",
+			"name": "product",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "c96b7477-7a64-44e0-8851-bb8c22cf6c29",
+			"folder": null,
+			"order": [
+				"f75e0abd-9564-4346-b921-d5a54d5b0f8f",
+				"47899393-9e80-46af-a647-eeb2a9410c44",
+				"c563df38-86d8-47fe-a360-aea8eb10699d",
+				"497a9d35-ff7c-44d2-bfa4-eacb4fb3982c"
+			],
+			"folders_order": []
+		}
+	],
+	"requests": [
+		{
+			"id": "47899393-9e80-46af-a647-eeb2a9410c44",
+			"name": "get",
+			"url": "http://localhost:8080/e-commerce/product/1",
+			"description": "",
+			"data": null,
+			"dataMode": null,
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "4730bc72-e71f-4c52-acfb-226da15fdece",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "497a9d35-ff7c-44d2-bfa4-eacb4fb3982c",
+			"name": "update product",
+			"url": "http://localhost:8080/e-commerce/product",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "PUT",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "4730bc72-e71f-4c52-acfb-226da15fdece",
+			"rawModeData": "{\n\t\"id\": 7,\n\t\"code\": \"TTFHH\",\n\t\"name\": \"bola spalding basketball 10\" ,\n\t\"description\": \"TF-1000 - grip outdoor\",\n\t\"stockQuantity\": 30,\n\t\"unityPrice\": 10.5\n}\n",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "5bcf76ee-bbb5-488f-afb9-3f69aeb4af33",
+			"name": "get List",
+			"url": "http://localhost:8080/e-commerce/order",
+			"description": "",
+			"data": null,
+			"dataMode": null,
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "359f00ed-5b0b-4e92-b9c9-79643ccfbb6d",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "77f8566d-2efa-4944-9cb9-ea9fc33a2454",
+			"name": "delete",
+			"url": "http://localhost:8080/e-commerce/order/7",
+			"description": "",
+			"data": null,
+			"dataMode": null,
+			"headerData": [],
+			"method": "DELETE",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "359f00ed-5b0b-4e92-b9c9-79643ccfbb6d",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "81f187fd-d9e9-40cc-b182-8c67e9de509f",
+			"name": "create order",
+			"url": "http://localhost:8080/e-commerce/order",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "359f00ed-5b0b-4e92-b9c9-79643ccfbb6d",
+			"rawModeData": "{\n    \"description\": \"Compra 1\",\n    \"total\": 1,\n    \"discount\": 0,\n    \"costumerId\": 1\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "94244242-698c-48d9-bd3f-4ab96aa8feef",
+			"name": "create customer",
+			"url": "http://localhost:8080/e-commerce/customer",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "930bfa39-b51e-4220-9d71-cd4b6c3a1623",
+			"rawModeData": "{\n    \"name\": \"Lais newww 2\",\n    \"birthDate\": \"1994-03-23\",\n    \"document\": \"48512545231\",\n    \"documentType\": \"CPF\",\n    \"addresses\": [\n        {\n            \"streetName\": \"South State Street newww\",\n            \"number\": \"78A\",\n            \"neighborhood\": \"Lincoln Park\",\n            \"postalCode\": \"005584844\",\n            \"country\": \"USA\",\n            \"city\": \"Chicago\"\n        },\n        {\n            \"streetName\": \"North State Street newww\",\n            \"number\": \"45B\",\n            \"neighborhood\": \"Fullerton\",\n            \"postalCode\": \"485871115\",\n            \"country\": \"USA\",\n            \"city\": \"Chicago\"\n        }\n    ]\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "a7daa992-0bb9-4691-8230-8765cad119e1",
+			"name": "add product to order",
+			"url": "http://localhost:8080/e-commerce/order/product",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "359f00ed-5b0b-4e92-b9c9-79643ccfbb6d",
+			"rawModeData": "{\n    \"productId\": 7,\n    \"quantity\": 30,\n    \"orderId\": 5\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "af43ca8c-d801-4d80-87c0-9cc18ca5baff",
+			"name": "get List",
+			"url": "http://localhost:8080/e-commerce/customer",
+			"description": "",
+			"data": null,
+			"dataMode": null,
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "930bfa39-b51e-4220-9d71-cd4b6c3a1623",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "baf7bdac-bbc2-483c-846c-1d63eda96ef0",
+			"name": "delete",
+			"url": "http://localhost:8080/e-commerce/customer/2",
+			"description": "",
+			"data": null,
+			"dataMode": null,
+			"headerData": [],
+			"method": "DELETE",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "930bfa39-b51e-4220-9d71-cd4b6c3a1623",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "c563df38-86d8-47fe-a360-aea8eb10699d",
+			"name": "create product",
+			"url": "http://localhost:8080/e-commerce/product",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "4730bc72-e71f-4c52-acfb-226da15fdece",
+			"rawModeData": "{\n\t\"code\": \"sASAHS1447\",\n\t\"name\": \"bola spalding basketball 3\" ,\n\t\"description\": \"TF-1000 - grip outdoor\",\n\t\"stockQuantity\": 15,\n\t\"unityPrice\": 10.5\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "d80bee54-5cd1-42f7-b166-9dadc337fa22",
+			"name": "get",
+			"url": "http://localhost:8080/e-commerce/customer/2",
+			"description": "",
+			"data": null,
+			"dataMode": null,
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "930bfa39-b51e-4220-9d71-cd4b6c3a1623",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "ee95d4dc-7215-4e08-aed5-be6372657485",
+			"name": "get",
+			"url": "http://localhost:8080/e-commerce/order/1",
+			"description": "",
+			"data": null,
+			"dataMode": null,
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "359f00ed-5b0b-4e92-b9c9-79643ccfbb6d",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "f75e0abd-9564-4346-b921-d5a54d5b0f8f",
+			"name": "get List",
+			"url": "http://localhost:8080/e-commerce/product",
+			"description": "",
+			"data": null,
+			"dataMode": null,
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "4730bc72-e71f-4c52-acfb-226da15fdece",
+			"headers": "",
+			"pathVariables": {}
+		}
+	]
+}
